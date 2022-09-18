@@ -18,20 +18,20 @@ int main(int argc, char **argv)
     locale::global(loc);
     wstring z;
     wstring text;
-    unsigned op;
+    unsigned pa;
     wcout<<L"Cipher ready. Input Password: ";
     wcin>>z;
     modBetaCipher cipher(key);
     do {
         wcout<<L"Cipher ready. Input operation (0-exit, 1-encrypt, 2-decrypt): ";
-        wcin>>op;
-        if (op > 2) {
+        wcin>>pa;
+        if (pa > 2) {
             wcout<<L"Wrong operation\n";
-        } else if (op >0) {
+        } else if (pa >0) {
             wcout<<L"Cipher ready. Input text: ";
             wcin>>text;
             if (isValid(text)) {
-                if (op==1) {
+                if (pa==1) {
                     wcout<<L"Encrypted text: "<<cipher.CoderBetaCipher(cipher, text)<<endl;
                 } else {
                     wcout<<L"Decrypted text: "<<cipher.DecoderBetaCipher(cipher, text)<<endl;
@@ -40,6 +40,6 @@ int main(int argc, char **argv)
                 wcout<<L"Operation aborted: Invalid text\n";
             }
         }
-    } while (op!=0);
+    } while (pa!=0);
     return 0;
 }
