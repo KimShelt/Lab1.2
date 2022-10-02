@@ -1,56 +1,40 @@
 #include "modBetaCipher.h"
-modBetaCipher::modBetaCipher(int password)
+using namespace std;
+
+std::wstring modBetaCipher::encrypt(const std::wstring& open_text) // шифрование
 {
-    this->p=password;
+    wstring tabl = open_text;
+    int dl, nstrok, index, x;
+    dl = open_text.length(); // введенный текст
+    nstrok = (dl - 1) / key1 + 1; // кол-во столбцов
+    x = 0;
+    for (int i = key1; i > 0; i--) { // столбцы
+        for (int j = 0; j < nstrok; j++) { // строки
+            index = i+key1*j;
+            if (index-1 < dl) {
+                tabl[x] = open_text[index-1];
+                x++;
+            }
+        }
+    }
+    return tabl;
 }
-wstring modBetaCipher::CoderBetaCipher(modBetaCipher w, wstring& s)
+
+std::wstring modBetaCipher::decrypt(const std::wstring& cipher_text) // расшифрование
 {
-    wstring Output;
-    int vis;
-    int dlina=s.size();
-    if (s.size()%w.p!=0) {
-        vis=s.size()/w.p+1;
-    } else {
-        vis=s.size()/w.p;
-    }
-    wchar_t x[vis][w.p];
-    int p=0;
-    for (int i=0; i<vis; ++i) {
-        for (int k=0; k<w.p; ++k) {
-            if (p<s.length()) {
-                x[i][k]=s[p];
-                ++p;
-            } else x[i][k]=' ';
+    wstring tabl = cipher_text;
+    int dl, nstrok, index, x;
+    dl = cipher_text.length();
+    nstrok = (dl - 1) / key1 + 1; // кол-во столбцов
+    x = 0;
+    for (int i = key1; i > 0; i--) { // столбцы
+        for (int j = 0; j < nstrok; j++) { // строки
+            index = i+key1*j;
+            if (index-1 < dl) {
+                tabl[index-1] = cipher_text[x];
+                x++;
+            }
         }
     }
-    for (int i=0; i<w.p; ++i) {
-        for (int k=0; k<vis; ++k) {
-            Output+=x[k][i];
-        }
-    }
-    return Output;
-}
-wstring modBetaCipher::DecoderBetaCipher(modBetaCipher w, wstring& s)
-{
-    int vis;
-    if (s.size()%w.p!=0) {
-        vis=s.size()/w.p+1;
-    } else {
-        vis=s.size()/w.p;
-    }
-    wchar_t x[vis][w.p];
-    int p=0;
-    for (int i=0; i<w.p; ++i) {
-        for (int k=0; k<vis; ++k) {
-            x[k][i]=s[p];
-            ++p;
-        }
-    }
-    wstring deOutput;
-    for (int i=0; i<vis; ++i) {
-        for (int k=0; k<w.p; ++k) {
-            deOutput+=x[i][k];
-        }
-    }
-    return deOutput;
+    return tabl;
 }
