@@ -1,15 +1,18 @@
 #pragma once
-#include <string>
 #include <vector>
+#include <string>
+#include <map>
 #include <iostream>
-using namespace std;
+#include <cctype>
+#include <locale>
+#include <codecvt>
 class modBetaCipher
 {
 private:
-    int p;
+    int key1; // кол-во столбцов
 public:
-    modBetaCipher()=delete;
-    modBetaCipher(int w);
-    wstring CoderBetaCipher(modBetaCipher w, wstring& s);
-    wstring DecoderBetaCipher(modBetaCipher w, wstring& s);
+    modBetaCipher()=delete; // запрет конструктора без параметров
+    modBetaCipher(const int& key) :key1(key) {};
+    std::wstring encrypt(const std::wstring& open_text); // зашифрование
+    std::wstring decrypt(const std::wstring& cipher_text); // расшифрование
 };
